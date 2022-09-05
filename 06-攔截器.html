@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>06-攔截器</title>
+    <!-- 引入 axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <script>
+        // 添加请求拦截器
+        axios.interceptors.request.use(
+            function (config) {
+                // 在发送请求之前做些什么
+                console.log('請求攔截器 成功');
+                // 演示成功執行
+                    // return config;
+
+                // 演示失敗執行
+                    throw '參數出了問題';
+            },
+            function (error) {
+                // 对请求错误做些什么
+                console.log('請求攔截器 失敗');
+                return Promise.reject(error);
+            }
+        );
+
+
+        // 添加响应拦截器
+        axios.interceptors.response.use(
+            function (response) {
+                // 对响应数据做点什么
+                console.log('響應攔截器 成功');
+                return response;
+            }, 
+            function (error) {
+                // 对响应错误做点什么
+                console.log('響應攔截器 失敗');
+                return Promise.reject(error);
+            }
+        );
+
+
+        // 發送請求
+        axios({
+            method: 'GET',
+            url: 'http://localhost:3000/posts'
+        })
+        .then(resp => {
+            console.log('自定義回調處理成功的結果');
+        })
+        .catch(reason => {
+            console.log('自定義失敗');
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>07-請求取消.html</title>
+    <!-- 引入 axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div>
+        <h2>axios 取消請求</h2>
+        <button>發送請求</button>
+        <button>取消請求</button>
+    </div>
+
+
+    <script>
+        // 獲取按鈕
+        const btns = document.querySelectorAll('button');
+
+        // 2. 聲明全局變量
+        let cancel = null;
+
+        // 發送請求
+        btns[0].onclick = function(){
+            // 檢測上一次的請求是否已經完成
+            // 判斷 cancel 的值是否為 null
+            if(cancel !== null){
+                // 取消上一次的請求
+                cancel();
+            }   
+
+            axios({
+                method: 'GET',
+                url: 'http://localhost:3000/posts',
+                // 1. 添加配置對象的屬性
+                cancelToken: new axios.CancelToken(function(c){
+                    // 3. 將 c 的值賦給 cancel
+                    cancel = c;
+                })
+            })
+            .then(resp => {
+                console.log(resp);
+
+                // 將 cancel 的值初始化
+                cancel = null;
+            })
+        }
+
+
+        // 綁定取消請求事件
+        btns[1].onclick = function(){
+            cancel();
+        }
+    </script>
+</body>
+</html>
