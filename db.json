@@ -16,6 +16,11 @@
       "id": 1,
       "body": "some comment",
       "postId": 1
+    },
+    {
+      "body": "喜大普奔",
+      "postId": 2,
+      "id": 2
     }
   ],
   "profile": {
